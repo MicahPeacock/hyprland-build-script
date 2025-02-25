@@ -88,6 +88,11 @@ post_install_early() {
 post_install() {
 	mkdir -p /boot/efi
 
+ 	cp ./create-home-user.service /etc/systemd/system/create-user.service
+  	cp ./scripts/create-user.sh /usr/local/bin/create-user.sh
+   	chmod +x /etc/systemd/system/create-user.service
+   	chmod +x /usr/local/bin/create-user.sh
+    
 	# Timezone
 	ln -sf /usr/share/zoneinfo/Canada/Mountain /etc/localtime
 
@@ -95,21 +100,10 @@ post_install() {
 	sed -i 's/^#\(en_US.UTF-8 UTF-8\)/\1/' /etc/locale.gen
 	locale-gen
 
-	# User
-	if ! getent passwd micahpeacock > /dev/null; then
-		passwd --lock root
-		
-		useradd -m -G wheel,audio,video,input,storage,power -s /bin/bash -c "Micah Peacock" micahpeacock
-		passwd micahpeacock
-
-  		mkdir -p /home/micahpeacock
-    		chown micahpeacock:micahpeacock /home/micahpeacock
-      		chmod 755 /home/micahpeacock
-	fi
-
 	# Enable services
 	systemctl enable systemd-timesyncd.service
   	systemctl enable NetworkManager.service
 	systemctl enable systemd-resolved.service
+ 	systemctl enable create-home-user.service
   	systemctl enable sddm.service
 }
