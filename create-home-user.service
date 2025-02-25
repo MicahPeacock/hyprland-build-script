@@ -1,0 +1,11 @@
+[Unit]
+Description=Create user and home directory
+After=local-fs.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/create-user.sh
+RemainAfterExit=true
+
+[Install]
+WantedBy=multi-user.target
