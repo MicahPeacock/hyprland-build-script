@@ -1,6 +1,6 @@
 [Unit]
 Description=Create user and home directory
-After=local-fs.target
+After=network-online.target
 
 [Service]
 Type=oneshot
