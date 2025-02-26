@@ -88,10 +88,9 @@ post_install_early() {
 post_install() {
 	mkdir -p /boot/efi
 
- 	cp ./create-home-user.service /etc/systemd/system/create-user.service
   	cp ./scripts/create-user.sh /usr/local/bin/create-user.sh
-   	chmod +x /etc/systemd/system/create-user.service
    	chmod +x /usr/local/bin/create-user.sh
+    	cp ./create-user.service /etc/systemd/system/create-user.service
     
 	# Timezone
 	ln -sf /usr/share/zoneinfo/Canada/Mountain /etc/localtime
@@ -104,6 +103,6 @@ post_install() {
 	systemctl enable systemd-timesyncd.service
   	systemctl enable NetworkManager.service
 	systemctl enable systemd-resolved.service
- 	systemctl enable create-home-user.service
+ 	systemctl enable create-user.service
   	systemctl enable sddm.service
 }
